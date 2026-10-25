@@ -15,7 +15,7 @@ const createNewTaskElement = function (taskString) {
   const editButton = createElement('button', { innerText: 'Edit', className: 'edit-button' }); //innerText encodes special characters, HTML does not.
 
   const deleteButton = createElement('button', { className: 'delete-button' });
-  const deleteButtonImg = createElement('img', { src: 'remove.svg' });
+  const deleteButtonImg = createElement('img', { src: 'remove.svg' , alt: 'remove'});
 
   deleteButton.append(deleteButtonImg);
   listItem.append(checkBox, label, editInput, editButton, deleteButton);
