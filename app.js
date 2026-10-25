@@ -4,39 +4,21 @@ const incompleteTaskHolder = document.getElementById('incompleteTasks');
 const completedTasksHolder = document.getElementById('completed-tasks');
 
 const createNewTaskElement = function (taskString) {
-  const listItem = document.createElement('li');
+  const listItem = createElement('li');
 
-  const checkBox = document.createElement('input');
+  const checkBox = createElement('input', { type: 'checkbox' });
 
-  const label = document.createElement('label');
+  const label = createElement('label', { innerText: taskString, className: 'task' });
 
-  const editInput = document.createElement('input');
+  const editInput = createElement('input', { type: 'text', className: 'task' });
 
-  const editButton = document.createElement('button');
+  const editButton = createElement('button', { innerText: 'Edit', className: 'edit' }); //innerText encodes special characters, HTML does not.
 
+  const deleteButton = createElement('button', { className: 'delete' });
+  const deleteButtonImg = createElement('img', { src: 'remove.svg' });
 
-  const deleteButton = document.createElement('button');
-  const deleteButtonImg = document.createElement('img');
-
-  label.innerText = taskString;
-  label.className = 'task';
-
-  checkBox.type = 'checkbox';
-  editInput.type = 'text';
-  editInput.className = 'task';
-
-  editButton.innerText = 'Edit'; //innerText encodes special characters, HTML does not.
-  editButton.className = 'edit';
-
-  deleteButton.className = 'delete';
-  deleteButtonImg.src = './remove.svg';
-  deleteButton.appendChild(deleteButtonImg);
-
-  listItem.appendChild(checkBox);
-  listItem.appendChild(label);
-  listItem.appendChild(editInput);
-  listItem.appendChild(editButton);
-  listItem.appendChild(deleteButton);
+  deleteButton.append(deleteButtonImg);
+  listItem.append(checkBox, label, editInput, editButton, deleteButton);
   return listItem;
 };
 
@@ -44,12 +26,11 @@ const addTask = function () {
   if (!taskInput.value) return;
   const listItem = createNewTaskElement(taskInput.value);
 
-  incompleteTaskHolder.appendChild(listItem);
+  incompleteTaskHolder.append(listItem);
   bindTaskEvents(listItem, taskCompleted);
 
   taskInput.value = '';
 };
-
 
 const editTask = function () {
   const listItem = this.parentNode;
@@ -77,13 +58,13 @@ const deleteTask = function () {
 
 const taskCompleted = function () {
   const listItem = this.parentNode;
-  completedTasksHolder.appendChild(listItem);
+  completedTasksHolder.append(listItem);
   bindTaskEvents(listItem, taskIncomplete);
 };
 
 const taskIncomplete = function () {
   const listItem = this.parentNode;
-  incompleteTaskHolder.appendChild(listItem);
+  incompleteTaskHolder.append(listItem);
   bindTaskEvents(listItem, taskCompleted);
 };
 
@@ -106,3 +87,7 @@ for (let i = 0; i < incompleteTaskHolder.children.length; i++) {
 for (let i = 0; i < completedTasksHolder.children.length; i++) {
   bindTaskEvents(completedTasksHolder.children[i], taskIncomplete);
 }
+
+const createElement = function (tag, properties) {
+  return Object.assign(document.createElement(tag), properties);
+};
